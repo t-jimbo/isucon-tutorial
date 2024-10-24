@@ -34,6 +34,7 @@ CREATE TABLE `items` (
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8mb4;
 
 CREATE INDEX items_seller_id_IDX USING BTREE ON isucari.items (seller_id,status,created_at);
+CREATE INDEX items_seller_id_buyer_id_IDX USING BTREE ON isucari.items (seller_id,buyer_id,status);
 
 DROP TABLE IF EXISTS `transaction_evidences`;
 CREATE TABLE `transaction_evidences` (
