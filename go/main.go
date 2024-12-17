@@ -279,6 +279,7 @@ func init() {
 }
 
 func main() {
+	// DB接続
 	host := os.Getenv("MYSQL_HOST")
 	if host == "" {
 		host = "127.0.0.1"
@@ -319,6 +320,7 @@ func main() {
 	}
 	defer dbx.Close()
 
+	// mux
 	mux := goji.NewMux()
 
 	// API
@@ -340,7 +342,8 @@ func main() {
 	mux.HandleFunc(pat.Post("/login"), postLogin)
 	mux.HandleFunc(pat.Post("/register"), postRegister)
 	mux.HandleFunc(pat.Get("/reports.json"), getReports)
-	// Frontend
+
+	// Frontend 全部public/index.html返してる
 	mux.HandleFunc(pat.Get("/"), getIndex)
 	mux.HandleFunc(pat.Get("/login"), getIndex)
 	mux.HandleFunc(pat.Get("/register"), getIndex)
@@ -354,8 +357,10 @@ func main() {
 	mux.HandleFunc(pat.Get("/transactions/:transaction_id"), getIndex)
 	mux.HandleFunc(pat.Get("/users/:user_id"), getIndex)
 	mux.HandleFunc(pat.Get("/users/setting"), getIndex)
+
 	// Assets
 	mux.Handle(pat.Get("/*"), http.FileServer(http.Dir("../public")))
+
 	log.Fatal(http.ListenAndServe(":8000", mux))
 }
 
